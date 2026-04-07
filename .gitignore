@@ -1,0 +1,17 @@
+# React
+node_modules/
+build/
+
+# Spring Boot
+target/
+*.class
+
+# Environment files
+.env
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
