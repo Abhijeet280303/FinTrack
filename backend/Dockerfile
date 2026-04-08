@@ -20,7 +20,8 @@ WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 
 # Expose the application port
-EXPOSE 8080
+EXPOSE 8080     
+# so the securiety groups are configured accordingly 
 
 # Run with container-friendly JVM defaults
 ENTRYPOINT ["java", "-jar", "app.jar"]

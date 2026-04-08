@@ -31,21 +31,21 @@ services:
       SPRING_DATASOURCE_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
       APP_JWT_SECRET: ${JWT_SECRET:-8f4b2c9e1a3d7f6e0b5c8a2d4e6f1a3b5c7d9e0f2a4b6c8d0e1f3a5b7c9d1e}
       APP_JWT_EXPIRATION_MS: 86400000
-      APP_CORS_ALLOWED_ORIGINS: http://localhost:3000
+      APP_CORS_ALLOWED_ORIGINS: http://localhost:3000  #replace localhost by the ip of the ec2 
     depends_on:
       mysql:
         condition: service_healthy
-
+x   
   # ─── React Frontend (Nginx) ───
   frontend:
     build:
       context: ./frontend
       args:
-        VITE_API_BASE_URL: http://localhost:8080/api
+        VITE_API_BASE_URL: http://localhost:8080/api #replace localhost by the ip of the ec2 
     container_name: fintrack-frontend
     restart: unless-stopped
     ports:
-      - "3000:80"
+      - "3000:80"     # 80 port here note 
     depends_on:
       - backend
 

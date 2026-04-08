@@ -13,8 +13,9 @@ RUN npm ci
 COPY . .
 
 # Build arg so the API URL can be set at build time
-ARG VITE_API_BASE_URL=http://localhost:8080/api
+ARG VITE_API_BASE_URL=http://localhost:8080/api    
 ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
+  ##replace localhost by the ip of the ec2 
 
 # Build the production bundle
 RUN npm run build
@@ -29,5 +30,6 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /app/dist /usr/share/nginx/html
 
 EXPOSE 80
+ #focus of the exposed port and the allowed inbound for in the security groups
 
 CMD ["nginx", "-g", "daemon off;"]

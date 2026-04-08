@@ -2,6 +2,12 @@
 
 A full-stack personal finance management application built with **Spring Boot** and **React**. Track income, manage expenses, set monthly budgets, and gain actionable financial insights through interactive charts and analytics.
 
+# Now i have also Containerized the application using the docker 
+written the Docker file and docker-compose.yml accordingly annd used the 
+aws ec2 instance to deploy the application .
+
+ec2 public ip - 13.62.228.49
+ 
 ---
 
 ## Features
@@ -140,21 +146,21 @@ CREATE DATABASE finance_manager;
 cd backend
 
 # Update database credentials in src/main/resources/application.properties
-# Default: root/root on localhost:3306
+# Default: root/root on 13.62.228.49:3306
 
 mvn clean install
 mvn spring-boot:run
 ```
-Backend starts on **http://localhost:8080**
+Backend starts on **http://13.62.228.49:8080**
 
 ### 3. Frontend Setup
 ```bash
 cd frontend
-cp .env.example .env   # Already configured for localhost:8080
+cp .env.example .env   # Already configured for 13.62.228.49:8080
 npm install
 npm run dev
 ```
-Frontend starts on **http://localhost:5173**
+Frontend starts on **http://13.62.228.49:80
 
 ---
 
@@ -163,17 +169,17 @@ Frontend starts on **http://localhost:5173**
 ### Backend (`application.properties`)
 | Property                          | Default                            |
 |-----------------------------------|------------------------------------|
-| `spring.datasource.url`          | `jdbc:mysql://localhost:3306/finance_manager` |
+| `spring.datasource.url`          | `jdbc:mysql://13.62.228.49:3306/finance_manager` |
 | `spring.datasource.username`     | `root`                             |
 | `spring.datasource.password`     | `root`                             |
 | `app.jwt.secret`                 | (64-char hex string)               |
 | `app.jwt.expiration-ms`          | `86400000` (24 hours)              |
-| `app.cors.allowed-origins`       | `http://localhost:5173`            |
+| `app.cors.allowed-origins`       | `http://13.62.228.49:5173`            |
 
 ### Frontend (`.env`)
 | Variable              | Default                          |
 |-----------------------|-----------------------------------|
-| `VITE_API_BASE_URL`  | `http://localhost:8080/api`       |
+| `VITE_API_BASE_URL`  | `http://13.62.228.49:8080/api`       |
 
 ---
 
@@ -194,3 +200,53 @@ Frontend starts on **http://localhost:5173**
 ## License
 
 This project is for educational and personal use.
+
+
+---
+
+## 🚀 Features
+
+- User authentication (Signup/Login)  
+- Expense and income tracking  
+- Categorized financial records  
+- Relational database structure (users, transactions, categories)  
+- Secure and persistent data storage  
+
+---
+
+## 🐳 Docker Setup
+
+### Backend Dockerfile (Spring Boot)
+- Multi-stage build for optimized image  
+- Exposes port 8080  
+- Entry point starts Spring Boot JAR  
+
+### Frontend Dockerfile (React + Nginx)
+- Multi-stage build: Node.js for build → Nginx for serving  
+- Exposes port 80  
+- Static files served by Nginx  
+
+### docker-compose.yml
+
+- Orchestrates **frontend, backend, and MySQL**  
+- Connects all services using a Docker network  
+- MySQL data persisted via Docker volume  
+- Starts all services in correct order  
+
+**Example command to start project:**
+```bash
+docker-compose up -d
+
+
+
+fintrack/
+├─ backend/        # Spring Boot backend
+│  ├─ src/
+│  ├─ pom.xml
+│  └─ Dockerfile
+├─ frontend/       # React frontend
+│  ├─ src/
+│  ├─ package.json
+│  └─ Dockerfile
+├─ docker-compose.yml
+└─ README.md
